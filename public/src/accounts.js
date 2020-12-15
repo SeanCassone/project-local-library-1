@@ -9,19 +9,20 @@ function sortAccountsByLastName(accounts) {
   );
 }
 
+function countBorrowsByAccountId(borrows, accountId) {
+  // 1. count each book's borrow by account id, there may be more than 1 borrow
+  //    by a give accountId
+  return borrows.filter((borrow) => {
+    return borrow.id === accountId;
+  }).length;
+}
 function numberOfBorrows({ id: accountId }, books) {
-  // count how many times individual books was borrowed and return them as
-  // the answer
-
-  // 4. return the total time this individual has borrowed books
+  // 1. count how many times individual books was borrowed and return the number
+  // as the answer,
   return books.reduce((numberOfBorrows, { borrows }) => {
-    // 2. for each book, sum up the borrow by account
-    const borrowCount = borrows.filter((borrow) => {
-      // 1. count each book's borrow by account id, there may be more than 1
-      return borrow.id === accountId;
-    }).length;
-    //3. lets add the new count to the total
-    return numberOfBorrows + borrowCount;
+    //2. for each book, add number of borrows to count of borrows for that book
+    //   and return it
+    return numberOfBorrows + countBorrowsByAccountId(borrows, accountId);
   }, 0);
 }
 
