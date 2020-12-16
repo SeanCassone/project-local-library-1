@@ -57,7 +57,7 @@ function mostPopularBooks(books) {
 function mostPopularAuthors(books, authors) {
   // 1. get a counter object of author id pointing to count
   const authorIdCounts = books.reduce((accum, { authorId, borrows }) => {
-    // 1.a get the genre of the current book
+    // 1.a get the authorId of the current book
     // 1.b if the property exists, add 1 to the count, otherwise set it to 1
     accum[authorId] = accum[authorId]
       ? accum[authorId] + borrows.length
@@ -68,7 +68,11 @@ function mostPopularAuthors(books, authors) {
   //    pointing to the author's first and last name and count pointing to the
   //    count
   const authorNameAndCounts = Object.keys(authorIdCounts).map((authorId) => {
+    // keys are strings but authorId needs to be a number
+    // 2.a find the respective author obj
     const author = authors.find((author) => author.id === parseInt(authorId));
+    // 2.b create a new obj with name pointing to first and last of author
+    //     and count pointing to the count
     const {
       name: { first, last },
     } = author;
