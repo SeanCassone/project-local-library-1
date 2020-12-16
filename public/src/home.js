@@ -28,16 +28,16 @@ function topFiveObjsUsingCount(arrOfObjects) {
 
 function mostCommonGenres(books) {
   // 1. get a counter object of genre pointing to counts
-  let genreCounts = books.reduce((accum, book) => {
+  const genreCounts = books.reduce((accum, book) => {
     // 1.a get the genre of the current book
-    let genre = book.genre;
+    const genre = book.genre;
     // 1.b if the property exists, add 1 to the count, otherwise set it to 1
     accum[genre] = accum[genre] ? accum[genre] + 1 : 1;
     return accum;
   }, {});
   // 2. map the keys of genreCounts to array of objects with name and counts
   //    as keys
-  let genreNameAndCounts = Object.keys(genreCounts).map((key) => {
+  const genreNameAndCounts = Object.keys(genreCounts).map((key) => {
     return { name: key, count: genreCounts[key] };
   });
   // 3. return top five items from the counter object;
@@ -47,7 +47,7 @@ function mostCommonGenres(books) {
 function mostPopularBooks(books) {
   // 1. map books to objects of name = title of book and count = number of
   //    borrows
-  let titleNameAndCount = books.map(({ title: name, borrows }) => {
+  const titleNameAndCount = books.map(({ title: name, borrows }) => {
     return { name, count: borrows.length };
   }, {});
   // 2. return the top 5 items from that counter object
@@ -56,7 +56,7 @@ function mostPopularBooks(books) {
 
 function mostPopularAuthors(books, authors) {
   // 1. get a counter object of author id pointing to count
-  let authorIdCounts = books.reduce((accum, { authorId, borrows }) => {
+  const authorIdCounts = books.reduce((accum, { authorId, borrows }) => {
     // 1.a get the genre of the current book
     // 1.b if the property exists, add 1 to the count, otherwise set it to 1
     accum[authorId] = accum[authorId]
@@ -67,7 +67,7 @@ function mostPopularAuthors(books, authors) {
   // 2. map the keys of the counter object to an array of objects with name
   //    pointing to the author's first and last name and count pointing to the
   //    count
-  let authorNameAndCounts = Object.keys(authorIdCounts).map((authorId) => {
+  const authorNameAndCounts = Object.keys(authorIdCounts).map((authorId) => {
     const author = authors.find((author) => author.id === parseInt(authorId));
     const {
       name: { first, last },
