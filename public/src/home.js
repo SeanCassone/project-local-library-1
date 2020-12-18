@@ -11,7 +11,10 @@ function totalAccountsCount(accounts) {
 function booksBorrowedCount(books) {
   // 1. filter the books to have only unreturned items
   // 2. return length of the filtered array.
-  return books.filter(({ borrows }) => !borrows[0].returned).length;
+  return books.filter(({ borrows }) => {
+    const [currentBookStatus] = borrows;
+    return !currentBookStatus.returned;
+  }).length;
 }
 
 // I use this multiple times. This is nice and DRY isn't it?
