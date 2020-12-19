@@ -20,8 +20,8 @@ function numberOfBorrows({ id: accountId }, books) {
   // 1. count how many times individual books was borrowed and return the number
   // as the answer,
   return books.reduce((numberOfBorrows, { borrows }) => {
-    //2. for each book, add number of borrows to count of borrows for that book
-    //   and return it
+  // 2. for each book, add number of borrows to count of borrows for that book
+  //    and return it
     return numberOfBorrows + countBorrowsByAccountId(borrows, accountId);
   }, 0);
 }
@@ -35,23 +35,26 @@ function booksInPossession({ id: accountId }, books, authors) {
   // 1. get accountId from the account object
   // 2. filter the list of books for one presently checked out by accountId
   return (
-    books
-      .filter((book) => {
-        // 2.a we can do a 'some' on the borrows array to see if its borrowed and
-        //     unreturned
-        return book.borrows.some((borrow) => {
-          // 2.a.a return true if account id matches and its not returned.
-          return borrow.id === accountId && !borrow.returned;
-        });
-      })
-      // 3. map the filtered books to create a new object containing all the
-      //    properties of books and adding an author key pointing to author object
-      //    that we'll find using a helper function.
+    getArrOfBooksCheckedOutByAccountId(books, accountId)
+  // 3. map the filtered books to create a new object containing all the
+  //    properties of books and adding an author key pointing to author object
+  //    that we'll find using a helper function.
       .map((book) => ({
         ...book,
         author: findAuthorByID(book.authorId, authors),
       }))
   );
+}
+
+function getArrOfBooksCheckedOutByAccountId(books, accountId) {
+  return books.filter((book) => {
+    // we can do a 'some' on the borrows array to see if its borrowed and
+    // unreturned
+    return book.borrows.some((borrow) => {
+      // return true if account id matches and its not returned.
+      return borrow.id === accountId && !borrow.returned;
+    });
+  });
 }
 
 module.exports = {
@@ -60,3 +63,4 @@ module.exports = {
   numberOfBorrows,
   booksInPossession,
 };
+
