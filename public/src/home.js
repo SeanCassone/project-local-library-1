@@ -31,20 +31,23 @@ function topFiveObjsUsingCount(arrOfObjects) {
 
 function mostCommonGenres(books) {
   // 1. get a counter object of genre pointing to counts
-  const genreCounts = books.reduce((accum, book) => {
-    // 1.a get the genre of the current book
-    const genre = book.genre;
-    // 1.b if the property exists, add 1 to the count, otherwise set it to 1
-    accum[genre] = accum[genre] ? accum[genre] + 1 : 1;
-    return accum;
-  }, {});
-  // 2. map the keys of genreCounts to array of objects with name and counts
+  const genreCountsObj = createCounterObjectForGenresOf(books);
+  // 2. map the keys of genreCountsObj to array of objects with name and counts
   //    as keys
-  const genreNameAndCounts = Object.keys(genreCounts).map((key) => {
-    return { name: key, count: genreCounts[key] };
+  const genreNameAndCounts = Object.keys(genreCountsObj).map((key) => {
+    return { name: key, count: genreCountsObj[key] };
   });
   // 3. return top five items from the counter object;
   return topFiveObjsUsingCount(genreNameAndCounts);
+}
+
+function createCounterObjectForGenresOf(books) {
+  return books.reduce((accum, { genre }) => {
+    // 1. get the genre of the current book
+    // 2. if the property exists, add 1 to the count, otherwise set it to 1
+    accum[genre] = accum[genre] ? accum[genre] + 1 : 1;
+    return accum;
+  }, {});
 }
 
 function mostPopularBooks(books) {
@@ -59,30 +62,41 @@ function mostPopularBooks(books) {
 
 function mostPopularAuthors(books, authors) {
   // 1. get a counter object of author id pointing to count
-  const authorIdCounts = books.reduce((accum, { authorId, borrows }) => {
-    // 1.a get the authorId of the current book
-    // 1.b if the property exists, add 1 to the count, otherwise set it to 1
-    accum[authorId] = accum[authorId]
-      ? accum[authorId] + borrows.length
-      : borrows.length;
-    return accum;
-  }, {});
+  const authorIdCounts = createCounterObjForAuthorIdToCountOfCheckoutsOf(books);
   // 2. map the keys of the counter object to an array of objects with name
   //    pointing to the author's first and last name and count pointing to the
   //    count
-  const authorNameAndCounts = Object.keys(authorIdCounts).map((authorId) => {
+  const authorNameAndCounts = mapIdsToAuthorNameAndCountObj(
+    authorIdCounts,
+    authors
+  );
+  // 3. return top Five items from counter object
+  return topFiveObjsUsingCount(authorNameAndCounts);
+}
+
+function mapIdsToAuthorNameAndCountObj(authorIdCounts, authors) {
+  return Object.keys(authorIdCounts).map((authorId) => {
     // keys are strings but authorId needs to be a number
-    // 2.a find the respective author obj
+    // 1. find the respective author obj
     const author = authors.find((author) => author.id === parseInt(authorId));
-    // 2.b create a new obj with name pointing to first and last of author
+    // 2. create a new obj with name pointing to first and last of author
     //     and count pointing to the count
     const {
       name: { first, last },
     } = author;
     return { name: `${first} ${last}`, count: authorIdCounts[authorId] };
   });
-  // 3. return top Five items from counter object
-  return topFiveObjsUsingCount(authorNameAndCounts);
+}
+
+function createCounterObjForAuthorIdToCountOfCheckoutsOf(books) {
+  return books.reduce((accum, { authorId, borrows }) => {
+    // 1. get the authorId, borrows of the current book
+    // 2. if the property exists, add 1 to the count, otherwise set it to 1
+    accum[authorId] = accum[authorId]
+      ? accum[authorId] + borrows.length
+      : borrows.length;
+    return accum;
+  }, {});
 }
 
 module.exports = {
