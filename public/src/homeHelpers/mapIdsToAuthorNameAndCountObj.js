@@ -3,7 +3,7 @@ function mapIdsToAuthorNameAndCountObj(authorIdCounterObj, authorsArr) {
     // keys are strings but authorId needs to be a number
     // 1. find the respective author obj
     const authorObj = authorsArr.find(
-      ({ id: idInt }) => idInt === parseInt(authorIdStr)
+      ({ id: idInt }) => idInt === parseInt(authorIdStr, 10)
     );
     // 2. create a new obj with name pointing to first and last of author
     //     and count pointing to the count
