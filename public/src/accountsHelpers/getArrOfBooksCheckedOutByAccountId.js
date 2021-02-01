@@ -15,4 +15,4 @@ function getArrOfBooksCheckedOutByAccountId(bookArr, accountIdStr) {
     bookObj.borrows.some(checkedOutBooksBy(accountIdStr))
   );
 }
-module.exports = {getArrOfBooksCheckedOutByAccountId};
+module.exports = { getArrOfBooksCheckedOutByAccountId };

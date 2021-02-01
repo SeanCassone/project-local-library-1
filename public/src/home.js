@@ -1,7 +1,15 @@
-const { createCounterObjectForGenresOf } = require("./homeHelpers/createCounterObjectForGenresOf");
-const { createCounterObjForAuthorIdToCountOfCheckoutsOf } = require("./homeHelpers/createCounterObjForAuthorIdToCountOfCheckoutsOf");
-const { mapIdsToAuthorNameAndCountObj } = require("./homeHelpers/mapIdsToAuthorNameAndCountObj");
-const { topFiveObjsUsingCount } = require("./homeHelpers/topFiveObjsUsingCount");
+const {
+  createCounterObjectForGenresOf,
+} = require("./homeHelpers/createCounterObjectForGenresOf");
+const {
+  createCounterObjForAuthorIdToCountOfCheckoutsOf,
+} = require("./homeHelpers/createCounterObjForAuthorIdToCountOfCheckoutsOf");
+const {
+  mapIdsToAuthorNameAndCountObj,
+} = require("./homeHelpers/mapIdsToAuthorNameAndCountObj");
+const {
+  topFiveObjsUsingCount,
+} = require("./homeHelpers/topFiveObjsUsingCount");
 
 /**
  * finds the count of all the books
@@ -34,7 +42,10 @@ function booksBorrowedCount(booksArr) {
    * 1. filter the books to have only unreturned items
    * 2. return length of the filtered array.
    */
-  return booksArr.filter(({ borrows: [firstCurrentBookStatusObj] }) => !firstCurrentBookStatusObj.returned).length;
+  return booksArr.filter(
+    ({ borrows: [firstCurrentBookStatusObj] }) =>
+      !firstCurrentBookStatusObj.returned
+  ).length;
 }
 
 /**
@@ -51,7 +62,9 @@ function mostCommonGenres(booksArr) {
    * 2. map the keys of genreCountsObj to array of objects with name and counts
    * as keys
    */
-  const genreNameAndCountsArr = Object.keys(genreCounterObj).map((genreStr) => ({ name: genreStr, count: genreCounterObj[genreStr] }));
+  const genreNameAndCountsArr = Object.keys(
+    genreCounterObj
+  ).map((genreStr) => ({ name: genreStr, count: genreCounterObj[genreStr] }));
   // 3. return top five items from the counter object;
   return topFiveObjsUsingCount(genreNameAndCountsArr);
 }
@@ -108,5 +121,3 @@ module.exports = {
   mostPopularBooks,
   mostPopularAuthors,
 };
-
-

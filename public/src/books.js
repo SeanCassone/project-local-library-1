@@ -73,5 +73,3 @@ module.exports = {
   partitionBooksByBorrowedStatus,
   getBorrowersForBook,
 };
-
-
