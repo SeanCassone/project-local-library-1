@@ -1,3 +1,7 @@
+const { findAccountById } = require("./booksHelpers/findAccountById");
+const { findAllBorrowedBooks } = require("./booksHelpers/findAllBorrowedBooks");
+const { findAllReturnedBooks } = require("./booksHelpers/findAllReturnedBooks");
+
 function findAuthorById(authorsArr, authorIdInt) {
   return authorsArr.find(({ id: idInt }) => idInt === authorIdInt);
 }
@@ -21,7 +25,7 @@ function getBorrowersForBook(bookObj, accountsArr) {
       .reduce((accumulatorArr, { id: idStr, returned: returnedBool }) => {
         // find the account obj, make a copy swo we don't  mutate the original
         // account object
-        accountWithReturned = {
+        const accountWithReturned = {
           ...findAccountById(accountsArr, idStr),
           returned: returnedBool,
         };
@@ -39,21 +43,4 @@ module.exports = {
   getBorrowersForBook,
 };
 
-function findAllReturnedBooks(booksArr) {
-  // return an array of books that have been returned
-  return booksArr.filter((bookObj) => isBookReturned(bookObj));
-}
 
-function findAllBorrowedBooks(booksArr) {
-  // return an array of books that have been borrowed
-  return booksArr.filter((bookObj) => !isBookReturned(bookObj));
-}
-
-function isBookReturned({ borrows: borrowsArr }) {
-  return borrowsArr[0].returned;
-}
-
-function findAccountById(accountsArr, accountIdStr) {
-  // return the account object that matches the account id
-  return accountsArr.find(({ id: idStr }) => idStr === accountIdStr);
-}
