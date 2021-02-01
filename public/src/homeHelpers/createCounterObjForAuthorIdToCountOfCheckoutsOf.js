@@ -1,3 +1,10 @@
+/**
+ * creates a counter object for author IDs
+ * @param {Object[]} booksArr array of objects representing books
+ * @returns {Object} a object with
+ * `author ID`: count of authors
+ */
+
 function createCounterObjForAuthorIdToCountOfCheckoutsOf(booksArr) {
   return booksArr.reduce((accumObj, bookObj) => {
     const { authorId: authorIdInt, borrows: borrowsArr } = bookObj;
